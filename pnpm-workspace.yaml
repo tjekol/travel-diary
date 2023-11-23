@@ -1,3 +1,5 @@
 packages:
-  - 'frontend'
-  - 'cms'
+  - 'apps/*'
+  - 'apps/cms'
+  - 'apps/web'
+  - 'packages/*'
