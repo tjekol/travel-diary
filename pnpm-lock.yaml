@@ -8,7 +8,7 @@ importers:
 
   .: {}
 
-  frontend:
+  apps/web:
     dependencies:
       next:
         specifier: 14.0.3
