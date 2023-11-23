@@ -6,6 +6,7 @@
     "dev": "cd apps/web  && pnpm dev",
     "build": "cd apps/web && pnpm build",
     "start": "cd apps/web  && pnpm start",
-    "lint": "eslint apps/web  --ext .js,.jsx,.ts,.tsx"
+    "lint": "eslint apps/web  --ext .js,.jsx,.ts,.tsx",
+    "prettier": "cd apps/web && pnpm exec prettier . --write"
   }
 }
