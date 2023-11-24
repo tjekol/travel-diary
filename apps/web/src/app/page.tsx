@@ -14,7 +14,7 @@ export default function Home() {
   ];
 
   return (
-    <main className='flex min-h-screen flex-col p-12 md:p-24'>
+    <main className='flex min-h-screen flex-col justify-between p-12'>
       <Header />
       <div className='w-5/6 self-center items-center grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-6'>
         {data.map((item) => (
@@ -25,7 +25,7 @@ export default function Home() {
           </div>
         ))}
       </div>
-      <p className='static self-center text-text/50 bottom-6 mt-8'>Thea Jenny E. Kolnes🦋</p>
+      <a href='https://github.com/tjekol/melbourne' target='_' className='static self-center bottom-2 text-text/50 mt-8'>Thea Jenny E. Kolnes🦋</a>
     </main>
   );
 }
