@@ -2,7 +2,7 @@ import Image from 'next/image';
 
 export default function Home() {
   return (
-    <main className='flex min-h-screen flex-col justify-between p-12 md:p-24'>
+    <main className='flex min-h-screen flex-col p-12 md:p-24'>
       <div className='self-center mb-8'>
         <h1 className='font-serif font-semibold text-center'>
           Melbourne Diary🇦🇺
@@ -45,8 +45,7 @@ export default function Home() {
           <p>hei</p>
         </div>
       </div>
-      <div className='grow'/>
-      <p className='text-center'>Thea Jenny E. Kolnes</p>
+      <p className='absolute self-center text-text/50 bottom-6'>Thea Jenny E. Kolnes</p>
     </main>
   );
 }
