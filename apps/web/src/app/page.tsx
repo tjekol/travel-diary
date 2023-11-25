@@ -31,12 +31,14 @@ export default function Home() {
   return (
     <main className='flex min-h-screen flex-col justify-between p-12'>
       <Header />
-      <div className='w-5/6 self-center items-center grid-row-dense grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-6'>
+      <div className='w-5/6 self-center justify-items-center grid-row-dense grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-8'>
         {posts.map((post) => (
           <div key={post._id} className='hover:scale-105 bg-primary/70 p-2 rounded-sm'>
-            <Image className='aspect-square object-cover' src={post.mainImage} alt={post.title} width={400} height={400} />
-            <p className='text-text'>{post.title}</p>
-            <p className='text-accent font-light'>{post.publishedAt}</p>
+            <a href={'post/' + post.slug.current} target='_'>
+              <Image className='aspect-square object-cover' src={post.mainImage} alt={post.title} width={400} height={400} />
+              <p className='text-text'>{post.title}</p>
+              <p className='text-accent font-light'>{post.publishedAt}</p>
+            </a>
           </div>
         ))}
         {data.map((item) => (
