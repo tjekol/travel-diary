@@ -1,5 +1,11 @@
+'use client';
+
 import Header from '@/components/header';
+import { getPosts } from '@/sanity/post';
+import { IPost } from '@/sanity/post/schemas';
 import Image from 'next/image';
+import { useState } from 'react';
+import { useEffect } from 'react';
 
 export default function Home() {
   const data = [
@@ -12,14 +18,30 @@ export default function Home() {
     { src: 'https://gratisography.com/wp-content/uploads/2023/05/gratisography-party-balloons-free-stock-photo-800x525.jpg', title: 'dog', date: '2023-10-10' },
     { src: 'https://gratisography.com/wp-content/uploads/2023/05/gratisography-gold-kicks-free-stock-photo-800x525.jpg', title: 'shoes', date: '2023-10-10' },
   ];
+  const [posts, setPosts] = useState<IPost[]>([]);
+  
+  useEffect(() => {
+    const fetchPosts = async () => {
+      const posts = await getPosts();
+      setPosts(posts);
+    };
+    fetchPosts();
+  }, [posts]);
 
   return (
     <main className='flex min-h-screen flex-col justify-between p-12'>
       <Header />
-      <div className='w-5/6 self-center items-center grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-6'>
+      <div className='w-5/6 self-center items-center grid-row-dense grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-6'>
+        {posts.map((post) => (
+          <div key={post._id} className='hover:scale-105 bg-primary/70 p-2 rounded-sm'>
+            <Image className='aspect-square object-cover' src={post.mainImage} alt={post.title} width={400} height={400} />
+            <p className='text-text'>{post.title}</p>
+            <p className='text-accent font-light'>{post.publishedAt}</p>
+          </div>
+        ))}
         {data.map((item) => (
-          <div key={item.title}>
-            <Image src={item.src} alt={item.title} width={400} height={400} />
+          <div key={item.title} className='hover:scale-105 bg-primary/70 p-2 rounded-sm'>
+            <Image className='aspect-square object-cover' src={item.src} alt={item.title} width={400} height={400} />
             <p className='text-text'>{item.title}</p>
             <p className='text-accent font-light'>{item.date}</p>
           </div>
