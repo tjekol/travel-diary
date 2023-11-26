@@ -56,7 +56,7 @@ export default async function SlugPage({
               ),
           )}
         </div>
-        <p className='text-accent'>Scroll --></p>
+        <p className='text-accent'>{'Scroll -->'}</p>
       </div>
       <a
         href='https://github.com/tjekol/melbourne'
