@@ -18,12 +18,15 @@
     --accent: #c4816e;
   }
   h1 {
-    @apply text-4xl text-text;
+    @apply text-2xl sm:text-4xl text-text;
   }
   h2 {
-    @apply text-2xl text-text;
+    @apply text-lg sm:text-2xl text-text;
   }
   h3 {
     @apply text-base;
+  }
+  p {
+    @apply text-sm sm:text-base;
   }
 }

@@ -31,10 +31,10 @@ export default function Home() {
   return (
     <main className='flex min-h-screen flex-col justify-between p-12'>
       <Header />
-      <div className='w-5/6 self-center justify-items-center grid-row-dense grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-8'>
+      <div className='w-5/6 self-center justify-items-center grid-row-dense grid grid-cols-2 xl:grid-cols-4 gap-4 sm:gap-8'>
         {posts.map((post) => (
-          <div key={post._id} className='hover:scale-105 bg-primary/70 p-2 rounded-sm'>
-            <a href={'post/' + post.slug.current} target='_'>
+          <div key={post._id} className='hover:scale-105 bg-primary/70 p-1 sm:p-2 rounded-sm'>
+            <a href={'post/' + post.slug.current}>
               <Image className='aspect-square object-cover' src={post.mainImage} alt={post.title} width={400} height={400} />
               <p className='text-text'>{post.title}</p>
               <p className='text-accent font-light'>{post.publishedAt}</p>
@@ -42,7 +42,7 @@ export default function Home() {
           </div>
         ))}
         {data.map((item) => (
-          <div key={item.title} className='hover:scale-105 bg-primary/70 p-2 rounded-sm'>
+          <div key={item.title} className='hover:scale-105 bg-primary/70 p-1 sm:p-2 rounded-sm'>
             <Image className='aspect-square object-cover' src={item.src} alt={item.title} width={400} height={400} />
             <p className='text-text'>{item.title}</p>
             <p className='text-accent font-light'>{item.date}</p>

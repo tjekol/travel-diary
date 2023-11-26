@@ -1,17 +1,18 @@
+import { IPost } from '../schemas';
 import { groq } from 'next-sanity';
-import { IPost } from './schemas';
 
-export async function getPosts() : Promise<IPost[]> {
+export async function getData(slug: string): Promise<IPost> {
   try {
     const { client } = await import('@/sanity/client');
-    const query = groq`*[_type == 'post'] | order(publishedAt desc) {
+    const query = groq`*[_type == "post" && slug.current == "${slug}"][0] {
       _id,
       title,
       slug,
       publishedAt,
       "mainImage": mainImage.asset -> url,
       description,
-    }`
+      "pictures": description[].asset -> url,
+    }`;
     return client.fetch(query);
   }
   catch (error) {
