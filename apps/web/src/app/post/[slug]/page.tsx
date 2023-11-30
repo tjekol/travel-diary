@@ -15,17 +15,17 @@ export default async function SlugPage({
     <main className='flex min-h-screen w-full flex-col justify-between py-12'>
       <Header />
       <div className='w-full grow rounded-sm bg-secondary/60 p-8'>
-        <div className='flex flex-row items-end justify-center space-x-8'>
-          <h1 className='font-semibold'>{data.title}</h1>
-          <h2 className='text-accent'>{data.publishedAt}</h2>
+        <div className='flex flex-col md:flex-row md:items-end md:justify-center md:space-x-8'>
+          <h1 className='font-semibold text-center'>{data.title}</h1>
+          <h2 className='text-accent text-center'>{data.publishedAt}</h2>
         </div>
-        <div className='my-8 flex flex-col items-center space-y-4 px-10 md:flex-row md:justify-center md:space-x-6'>
+        <div className='my-8 flex flex-col items-center space-y-4 px-2 md:px-10 md:flex-row md:justify-center md:space-x-6'>
           <Image
             src={data.mainImage}
             alt={data.title}
             width={300}
             height={430}
-            sizes='100vh'
+            sizes='70vh'
           />
           <div className='self-center md:w-2/5 md:self-start'>
             <PortableText value={data.description} />
@@ -40,19 +40,18 @@ export default async function SlugPage({
             </p>
           </div>
         </div>
-        {/* <div className='flex flex-wrap justify-center gap-4 px-8'> */}
-        <div className='columns-2 md:columns-4 2xl:columns-xs w-full gap-x-4 [break-inside:avoid]'>
+        <div className='w-full columns-2 gap-x-4 md:columns-4 2xl:columns-xs'>
           {data.pictures.map(
             (picture) =>
               picture !== null && (
                 <Image
-                  className='w-full aspect-image py-2'
+                  className='aspect-image w-full py-2'
                   src={picture}
                   alt='title'
                   key={picture}
                   width={300}
                   height={300}
-                  sizes='100vh'
+                  sizes='50vh'
                 />
               ),
           )}

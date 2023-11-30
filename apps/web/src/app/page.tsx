@@ -8,16 +8,6 @@ import { useState } from 'react';
 import { useEffect } from 'react';
 
 export default function Home() {
-  const data = [
-    { src: 'https://gratisography.com/wp-content/uploads/2023/10/gratisography-pumpkin-scarecrow-800x525.jpg', title: 'pumkin', date: '2023-02-01' },
-    { src: 'https://gratisography.com/wp-content/uploads/2023/06/gratisography-kitten-plant-free-stock-photo-800x525.jpg', title: 'cat', date: '2023-04-11' },
-    { src: 'https://gratisography.com/wp-content/uploads/2023/06/gratisography-toadstool-free-stock-photo-800x525.jpg', title: 'frog', date: '2023-10-10' },
-    { src: 'https://gratisography.com/wp-content/uploads/2023/05/gratisography-blank-paper-free-stock-photo-800x525.jpg', title: 'paper', date: '2023-10-10' },
-    { src: 'https://gratisography.com/wp-content/uploads/2023/05/gratisography-retro-pastime-free-stock-photo-800x525.jpg', title: 'tv', date: '2023-10-10' },
-    { src: 'https://gratisography.com/wp-content/uploads/2023/05/gratisography-wedding-dog-free-stock-photo-800x525.jpg', title: 'balloons', date: '2023-10-10' },
-    { src: 'https://gratisography.com/wp-content/uploads/2023/05/gratisography-party-balloons-free-stock-photo-800x525.jpg', title: 'dog', date: '2023-10-10' },
-    { src: 'https://gratisography.com/wp-content/uploads/2023/05/gratisography-gold-kicks-free-stock-photo-800x525.jpg', title: 'shoes', date: '2023-10-10' },
-  ];
   const [posts, setPosts] = useState<IPost[]>([]);
   
   useEffect(() => {
@@ -29,9 +19,9 @@ export default function Home() {
   }, [posts]);
 
   return (
-    <main className='flex min-h-screen flex-col justify-between p-12'>
+    <main className='flex min-h-screen flex-col justify-between p-6 sm:p-10'>
       <Header />
-      <div className='w-5/6 self-center justify-items-center grid-row-dense grid grid-cols-2 xl:grid-cols-4 gap-4 sm:gap-8'>
+      <div className='w-full md:w-5/6 self-center justify-items-center grid grid-cols-2 xl:grid-cols-4 gap-3 sm:gap-4'>
         {posts.map((post) => (
           <div key={post._id} className='hover:scale-105 bg-primary/70 p-1 sm:p-2 rounded-sm'>
             <a href={'post/' + post.slug.current}>
@@ -39,13 +29,6 @@ export default function Home() {
               <p className='text-text'>{post.title}</p>
               <p className='text-accent font-light'>{post.publishedAt}</p>
             </a>
-          </div>
-        ))}
-        {data.map((item) => (
-          <div key={item.title} className='hover:scale-105 bg-primary/70 p-1 sm:p-2 rounded-sm'>
-            <Image className='aspect-square object-cover' src={item.src} alt={item.title} width={400} height={400} />
-            <p className='text-text'>{item.title}</p>
-            <p className='text-accent font-light'>{item.date}</p>
           </div>
         ))}
       </div>
