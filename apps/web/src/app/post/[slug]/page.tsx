@@ -23,10 +23,9 @@ export default async function SlugPage({
           <Image
             src={data.mainImage}
             alt={data.title}
-            width={0}
-            height={0}
+            width={300}
+            height={430}
             sizes='100vh'
-            style={{ height: '430px', width: 'auto' }}
           />
           <div className='self-center md:w-2/5 md:self-start'>
             <PortableText value={data.description} />
