@@ -12,9 +12,9 @@ export default async function SlugPage({
   const data = (await getData(params.slug)) as IPost;
 
   return (
-    <main className='w-full flex flex-col min-h-screen justify-between py-12'>
+    <main className='flex min-h-screen w-full flex-col justify-between py-12'>
       <Header />
-      <div className='w-full grow rounded-md bg-secondary/60 p-8'>
+      <div className='w-full grow rounded-sm bg-secondary/60 p-8'>
         <div className='flex flex-row items-end justify-center space-x-8'>
           <h1 className='font-semibold'>{data.title}</h1>
           <h2 className='text-accent'>{data.publishedAt}</h2>
@@ -26,9 +26,9 @@ export default async function SlugPage({
             width={0}
             height={0}
             sizes='100vh'
-            style={{ width: 'auto', maxHeight: '430px', maxWidth: '430px' }}
+            style={{ height: '430px', width: 'auto' }}
           />
-          <div className='self-center md:w-1/2 md:self-start'>
+          <div className='self-center md:w-2/5 md:self-start'>
             <PortableText value={data.description} />
             <p>
               Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
@@ -41,22 +41,23 @@ export default async function SlugPage({
             </p>
           </div>
         </div>
-        <div className='grid grid-flow-col auto-cols-max overflow-x-auto gap-2 md:flex-row'>
-          {data.pictures.map((picture) =>
+        {/* <div className='flex flex-wrap justify-center gap-4 px-8'> */}
+        <div className='columns-2 md:columns-4 2xl:columns-xs w-full gap-x-4 [break-inside:avoid]'>
+          {data.pictures.map(
+            (picture) =>
               picture !== null && (
                 <Image
-                  src={picture} 
+                  className='w-full aspect-image py-2'
+                  src={picture}
                   alt='title'
                   key={picture}
-                  width={0}
-                  height={0}
+                  width={300}
+                  height={300}
                   sizes='100vh'
-                  style={{ width: 'auto', maxHeight: '320px' }}
                 />
               ),
           )}
         </div>
-        <p className='text-accent'>{'Scroll -->'}</p>
       </div>
       <a
         href='https://github.com/tjekol/melbourne'
