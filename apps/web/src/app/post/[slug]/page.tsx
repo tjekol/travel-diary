@@ -4,6 +4,7 @@ import { getData } from '@/sanity/post/[slug]';
 import { IPost } from '@/sanity/post/schemas';
 import { PortableText } from '@portabletext/react';
 import Image from 'next/image';
+import { HeartIcon, HeartFilledIcon } from '@radix-ui/react-icons'
 
 export default async function SlugPage({
   params,
@@ -19,6 +20,7 @@ export default async function SlugPage({
         <div className='flex flex-col md:flex-row md:items-end md:justify-center md:space-x-8'>
           <h1 className='font-semibold text-center'>{data.title}</h1>
           <h2 className='text-accent text-center'>{data.publishedAt}</h2>
+          <HeartIcon className='self-center scale-[1.75] hover:scale-[2]' />
         </div>
         <div className='my-8 flex flex-col items-center space-y-4 px-2 md:px-10 md:flex-row md:justify-center md:space-x-6'>
           <Image
