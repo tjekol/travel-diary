@@ -1,5 +1,6 @@
 'use client';
 
+import Footer from '@/components/footer';
 import Header from '@/components/header';
 import { getPosts } from '@/sanity/post';
 import { IPost } from '@/sanity/post/schemas';
@@ -32,7 +33,7 @@ export default function Home() {
           </div>
         ))}
       </div>
-      <a href='https://github.com/tjekol/melbourne' target='_' className='static hover:underline self-center bottom-2 text-text/50 mt-8'>Thea Jenny E. Kolnes🦋</a>
+      <Footer />
     </main>
   );
 }
