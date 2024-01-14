@@ -13,8 +13,9 @@ export default function Admin() {
       <Header />
       {session.status === 'authenticated' ? (
         <>
-          <p>authenticated</p>
-          <p>Admin {JSON.stringify(data)}</p>
+          <p className='self-center mb-20'>Du er verifisert!</p>
+          <p/>
+          {/* <p>Admin {JSON.stringify(data)}</p> */}
         </>
       ) : (
         <>
