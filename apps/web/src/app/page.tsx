@@ -19,7 +19,7 @@ export default function Home() {
   }, [posts]);
 
   return (
-    <main className='flex min-h-screen flex-col justify-between p-6 sm:p-10'>
+    <main className='flex min-h-screen flex-col justify-between p-6 sm:p-12'>
       <Header />
       <div className='w-full md:w-5/6 self-center justify-items-center grid grid-cols-2 xl:grid-cols-4 gap-3 sm:gap-4'>
         {posts.map((post) => (
