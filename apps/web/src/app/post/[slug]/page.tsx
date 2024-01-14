@@ -1,3 +1,4 @@
+import Footer from '@/components/footer';
 import Header from '@/components/header';
 import { getData } from '@/sanity/post/[slug]';
 import { IPost } from '@/sanity/post/schemas';
@@ -57,13 +58,7 @@ export default async function SlugPage({
           )}
         </div>
       </div>
-      <a
-        href='https://github.com/tjekol/melbourne'
-        target='_'
-        className='static bottom-2 mt-8 self-center text-text/50'
-      >
-        Thea Jenny E. Kolnes🦋
-      </a>
+      <Footer />
     </main>
   );
 }
