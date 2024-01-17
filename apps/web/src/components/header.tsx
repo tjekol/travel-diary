@@ -18,13 +18,13 @@ export default function Header() {
         </a>
         {session.status === 'authenticated' ? (
           <div className='flex flex-col items-end absolute top-5 right-5 sm:top-10 sm:right-10'>
-            <a href='http://localhost:3000/dashboard'>
+            <a href='https://melbourne.vercel.app/dashboard'>
               <p className='text-text/50 hover:underline'>Hei, {session.data.user?.name}!</p>
             </a>
             <p onClick={() => signOut()} className='text-text/50 hover:underline'>Logg ut</p>
           </div>
         ) : (
-          <a href='http://localhost:3000/api/auth/signin/github'>
+          <a href='https://melbourne.vercel.app/api/auth/signin/github'>
             <p className='absolute hover:underline top-5 right-5 sm:top-10 sm:right-10 text-text/50 justify-self-end'>Logg inn</p>
           </a>
         )}

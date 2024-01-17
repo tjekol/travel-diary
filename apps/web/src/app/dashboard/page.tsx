@@ -20,7 +20,7 @@ export default function Admin() {
       ) : (
         <>
           <div className='self-center rounded-md bg-secondary px-10 py-4 hover:bg-secondary/40'>
-            <a href='http://localhost:3000/api/auth/signin/github'>
+            <a href='https://melbourne.vercel.app/api/auth/signin/github'>
               <h1 className='font-semibold'>Logg inn</h1>
             </a>
           </div>
