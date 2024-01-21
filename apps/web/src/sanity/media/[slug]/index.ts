@@ -4,7 +4,7 @@ import { groq } from 'next-sanity';
 export async function getMedia(ref: string) : Promise<IMedia> {
   try {
     const { client } = await import('@/sanity/client');
-    const query = groq`*[_type == "post"][0] {
+    const query = groq`*[_type == "post"]{
       "slug": description[asset._ref == '${ref}'][0].asset -> url,
       "ref": description[asset._ref == '${ref}'][0].asset._ref,
     }`;

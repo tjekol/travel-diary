@@ -37,8 +37,9 @@ export default function SlugMedia({ params }: { params: { slug: string } }) {
   return (
     <main className='flex min-h-screen flex-col justify-between py-6 sm:py-12'>
       <Header />
-      <div className='w-full'>
+      <div className='w-1/2 h-1/2'>
         <Image
+          className='aspect-image w-full'
           src={media.slug}
           alt={media.ref}
           width={300}
