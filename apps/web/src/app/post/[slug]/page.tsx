@@ -64,14 +64,18 @@ export default function SlugPage({ params }: { params: { slug: string } }) {
               alt={post.title}
               width={300}
               height={100}
-              sizes='70vh'
+              sizes='50vh'
+              style={{
+                width: '100%',
+                height: 'auto',
+              }}
             />
           </a>
           <div className='self-center md:w-2/5 md:self-start'>
             <PortableText value={post.description} />
           </div>
         </div>
-        <div className='w-full columns-2 gap-x-4 md:columns-4 2xl:columns-xs'>
+        <div className='w-full columns-2 gap-x-4 md:mx-15 md:columns-4 2xl:columns-xs'>
           {post.pictureUrls.map(
             (pictureUrl, index) =>
               pictureUrl !== null && (
