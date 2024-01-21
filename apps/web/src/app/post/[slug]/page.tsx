@@ -2,22 +2,21 @@
 
 import Footer from '@/components/footer';
 import Header from '@/components/header';
-import { getData } from '@/sanity/post/[slug]';
+import { getPost } from '@/sanity/post/[slug]';
 import { IPost } from '@/sanity/post/schemas';
 import { PortableText } from '@portabletext/react';
-import { ArrowLeftIcon } from '@radix-ui/react-icons';
 import Image from 'next/image';
 import { useState, useEffect } from 'react';
 
 export default function SlugPage({ params }: { params: { slug: string } }) {
-  const [data, setData] = useState<IPost | null>(null);
+  const [post, setPost] = useState<IPost | null>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const postData = await getData(params.slug);
-        setData(postData);
+        const postData = await getPost(params.slug);
+        setPost(postData);
       } catch (error) {
         console.error('Error fetching post data:', error);
       } finally {
@@ -39,7 +38,7 @@ export default function SlugPage({ params }: { params: { slug: string } }) {
     );
   }
 
-  if (!data) {
+  if (!post) {
     return (
       <main className='flex min-h-screen w-full flex-col justify-between sm:py-12'>
         <Header />
@@ -55,34 +54,36 @@ export default function SlugPage({ params }: { params: { slug: string } }) {
       <Header />
       <div className='w-full grow rounded-sm bg-secondary/60 p-8'>
         <div className='flex flex-col md:flex-row md:items-end md:justify-center md:space-x-8'>
-          <h1 className='text-center font-semibold'>{data.title}</h1>
-          <h2 className='text-center text-accent'>{data.publishedAt}</h2>
+          <h1 className='text-center font-semibold'>{post.title}</h1>
+          <h2 className='text-center text-accent'>{post.publishedAt}</h2>
         </div>
         <div className='my-8 flex flex-col items-center space-y-4 px-2 md:flex-row md:justify-center md:space-x-6 md:px-10'>
           <Image
-            src={data.mainImage}
-            alt={data.title}
+            src={post.mainImage}
+            alt={post.title}
             width={300}
             height={100}
             sizes='70vh'
           />
           <div className='self-center md:w-2/5 md:self-start'>
-            <PortableText value={data.description} />
+            <PortableText value={post.description} />
           </div>
         </div>
         <div className='w-full columns-2 gap-x-4 md:columns-4 2xl:columns-xs'>
-          {data.pictures.map(
-            (picture) =>
-              picture !== null && (
-                <Image
-                  className='aspect-image w-full py-2'
-                  src={picture}
-                  alt='title'
-                  key={picture}
-                  width={260}
-                  height={100}
-                  sizes='50vh'
-                />
+          {post.pictures.map(
+            (pictureUrl) =>
+              pictureUrl !== null && (
+                <>
+                  <Image
+                    className='aspect-image w-full py-2'
+                    src={pictureUrl}
+                    alt='title'
+                    key={pictureUrl}
+                    width={260}
+                    height={100}
+                    sizes='50vh'
+                  />
+                </>
               ),
           )}
         </div>

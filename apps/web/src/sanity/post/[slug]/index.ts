@@ -1,7 +1,7 @@
 import { IPost } from '../schemas';
 import { groq } from 'next-sanity';
 
-export async function getData(slug: string): Promise<IPost> {
+export async function getPost(slug: string): Promise<IPost> {
   try {
     const { client } = await import('@/sanity/client');
     const query = groq`*[_type == "post" && slug.current == "${slug}"][0] {
