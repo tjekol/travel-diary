@@ -58,32 +58,34 @@ export default function SlugPage({ params }: { params: { slug: string } }) {
           <h2 className='text-center text-accent'>{post.publishedAt}</h2>
         </div>
         <div className='my-8 flex flex-col items-center space-y-4 px-2 md:flex-row md:justify-center md:space-x-6 md:px-10'>
-          <Image
-            src={post.mainImage}
-            alt={post.title}
-            width={300}
-            height={100}
-            sizes='70vh'
-          />
+          <a href={post.mainImage}>
+            <Image
+              src={post.mainImage}
+              alt={post.title}
+              width={300}
+              height={100}
+              sizes='70vh'
+            />
+          </a>
           <div className='self-center md:w-2/5 md:self-start'>
             <PortableText value={post.description} />
           </div>
         </div>
         <div className='w-full columns-2 gap-x-4 md:columns-4 2xl:columns-xs'>
-          {post.pictures.map(
-            (pictureUrl) =>
+          {post.pictureUrls.map(
+            (pictureUrl, index) =>
               pictureUrl !== null && (
-                <>
+                <a key={index} href={pictureUrl}>
                   <Image
                     className='aspect-image w-full py-2'
                     src={pictureUrl}
                     alt='title'
-                    key={pictureUrl}
+                    key={index}
                     width={260}
                     height={100}
                     sizes='50vh'
                   />
-                </>
+                </a>
               ),
           )}
         </div>
