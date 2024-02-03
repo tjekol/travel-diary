@@ -34,20 +34,26 @@ export default function Home() {
   return (
     <main className='flex min-h-screen flex-col justify-between p-6 sm:p-12'>
       <Header />
-      <div className='w-full md:w-5/6 self-center justify-items-center grid grid-cols-2 xl:grid-cols-4 gap-3 sm:gap-4'>
-        {posts.map((post) => (
-          <div key={post._id} className='hover:scale-105 bg-primary/70 p-1 sm:p-2 rounded-sm'>
-            {loadingImages.includes(post._id) && (
-              <PulseLoader size={10} />
-            )}
-            <a href={'post/' + post.slug.current}>
-            <Image className='aspect-square object-cover' onLoad={() => handleImageLoad(post._id)} placeholder='empty' loading='lazy' src={post.mainImage} alt={post.title} width={400} height={400} />
-            <p className='text-text'>{post.title}</p>
-            <p className='text-accent font-light'>{post.publishedAt}</p>
-            </a>
-          </div>
-        ))}
-      </div>
+      {posts.length < 1 ? (
+        <div className='w-full md:w-5/6 self-center justify-items-cente text-center'>
+          Ingen innlegg enda…
+        </div>
+      ) : (
+        <div className='w-full md:w-5/6 self-center justify-items-center grid grid-cols-2 xl:grid-cols-4 gap-3 sm:gap-4'>
+          {posts.map((post) => (
+            <div key={post._id} className='hover:scale-105 bg-primary/70 p-1 sm:p-2 rounded-sm'>
+              {loadingImages.includes(post._id) && (
+                <PulseLoader size={10} />
+              )}
+              <a href={'post/' + post.slug.current}>
+              <Image className='aspect-square object-cover' onLoad={() => handleImageLoad(post._id)} placeholder='empty' loading='lazy' src={post.mainImage} alt={post.title} width={400} height={400} />
+              <p className='text-text'>{post.title}</p>
+              <p className='text-accent font-light'>{post.publishedAt}</p>
+              </a>
+            </div>
+          ))}
+        </div>
+      )}
       <Footer />
     </main>
   );
