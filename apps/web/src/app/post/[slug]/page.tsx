@@ -58,7 +58,6 @@ export default function SlugPage({ params }: { params: { slug: string } }) {
           <h2 className='text-center text-accent'>{post.publishedAt}</h2>
         </div>
         <div className='my-8 flex flex-col items-center space-y-4 px-2 md:flex-row md:justify-center md:space-x-6 md:px-10'>
-          <a href={post.mainImage}>
             <Image
               src={post.mainImage}
               alt={post.title}
@@ -68,9 +67,9 @@ export default function SlugPage({ params }: { params: { slug: string } }) {
               style={{
                 width: '100%',
                 height: 'auto',
+                maxWidth: '500px',
               }}
             />
-          </a>
           <div className='self-center md:w-2/5 md:self-start'>
             <PortableText value={post.description} />
           </div>
@@ -79,7 +78,6 @@ export default function SlugPage({ params }: { params: { slug: string } }) {
           {post.pictureUrls.map(
             (pictureUrl, index) =>
               pictureUrl !== null && (
-                <a key={index} href={pictureUrl}>
                   <Image
                     className='aspect-image w-full py-2'
                     src={pictureUrl}
@@ -89,7 +87,6 @@ export default function SlugPage({ params }: { params: { slug: string } }) {
                     height={100}
                     sizes='50vh'
                   />
-                </a>
               ),
           )}
         </div>
