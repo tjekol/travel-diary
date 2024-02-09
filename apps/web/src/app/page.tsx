@@ -12,6 +12,7 @@ import { PulseLoader } from 'react-spinners';
 export default function Home() {
   const [posts, setPosts] = useState<IPost[]>([]);
   const [loadingImages, setLoadingImages] = useState<string[]>([]);
+  const [loading, setLoading] = useState(true);
   
   useEffect(() => {
     const fetchPosts = async () => {
@@ -20,6 +21,8 @@ export default function Home() {
         setPosts(posts);
       } catch (err) {
         console.error(err);
+      } finally {
+        setLoading(false);
       }
     };
     fetchPosts();
@@ -31,12 +34,23 @@ export default function Home() {
     );
   };
 
+  if (loading) {
+    return (
+      <main className='flex min-h-screen w-full flex-col justify-between py-12'>
+        <Header />
+        <div className='w-full grow rounded-sm bg-secondary/60 p-8'>
+          <div className='text-center'>Laster...</div>
+        </div>
+      </main>
+    );
+  }
+
   return (
     <main className='flex min-h-screen flex-col justify-between p-6 sm:p-12'>
       <Header />
       {posts.length < 1 ? (
         <div className='w-full md:w-5/6 self-center justify-items-cente text-center'>
-          Ingen innlegg enda…
+          Ingen innlegg…
         </div>
       ) : (
         <div className='w-full md:w-5/6 self-center justify-items-center grid grid-cols-2 xl:grid-cols-4 gap-3 sm:gap-4'>
