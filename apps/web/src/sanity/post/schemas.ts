@@ -9,6 +9,7 @@ export type IPost = {
   mainImage: string;
   publishedAt: string;
   description: PortableTextBlock[];
+  pictures: PortableTextBlock[];
   pictureUrls: string[];
   pictureRefs: string[];
 }
