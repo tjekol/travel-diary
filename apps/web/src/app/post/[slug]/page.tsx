@@ -74,7 +74,7 @@ export default function SlugPage({ params }: { params: { slug: string } }) {
             <PortableText value={post.description} />
           </div>
         </div>
-        <div className='w-full columns-2 gap-x-4 md:mx-15 md:columns-4 2xl:columns-xs'>
+        <div className='w-full columns-2 gap-x-4 md:mx-15 md:columns-xs xl:columns-sm 2xl:columns-md'>
           {post.pictureUrls.map(
             (pictureUrl, index) =>
               pictureUrl !== null && (
