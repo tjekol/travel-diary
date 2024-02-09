@@ -11,8 +11,8 @@ export async function getPost(slug: string): Promise<IPost> {
       publishedAt,
       "mainImage": mainImage.asset -> url,
       description,
-      "pictureUrls": description[].asset -> url,
-      "pictureRefs": description[].asset._ref,
+      "pictureUrls": pictures[].asset -> url,
+      "pictureRefs": pictures[].asset._ref,
     }`;
     return client.fetch(query);
   }
