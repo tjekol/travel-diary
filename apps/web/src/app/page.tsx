@@ -49,11 +49,11 @@ export default function Home() {
     <main className='flex min-h-screen flex-col justify-between p-6 sm:p-12'>
       <Header />
       {posts.length < 1 ? (
-        <div className='w-full md:w-5/6 self-center justify-items-cente text-center'>
+        <div className='w-full lg:w-5/6 self-center justify-items-cente text-center'>
           Ingen innlegg…
         </div>
       ) : (
-        <div className='w-full md:w-5/6 self-center justify-items-center grid grid-cols-2 xl:grid-cols-4 gap-3 sm:gap-4'>
+        <div className='w-full lg:w-5/6 self-center justify-items-center grid grid-cols-2 xl:grid-cols-4 gap-3 sm:gap-4'>
           {posts.map((post) => (
             <div key={post._id} className='hover:scale-105 bg-primary/70 p-1 sm:p-2 rounded-sm'>
               {loadingImages.includes(post._id) && (
