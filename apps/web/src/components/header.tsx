@@ -1,7 +1,7 @@
 export default function Header() {
 
   return (
-      <div className='self-center my-6'>
+      <div className='self-center mt-5 mb-10'>
         <a href='/'>
           <h1 className='font-serif font-semibold text-center'>
             Melbourne Dagbok🇦🇺
