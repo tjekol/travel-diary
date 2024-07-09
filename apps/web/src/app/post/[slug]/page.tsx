@@ -2,21 +2,42 @@
 
 import Footer from '@/components/footer';
 import Header from '@/components/header';
+import { getPosts } from '@/sanity/post';
 import { getPost } from '@/sanity/post/[slug]';
 import { IPost } from '@/sanity/post/schemas';
 import { PortableText } from '@portabletext/react';
+import { ChevronLeftIcon, ChevronRightIcon } from '@radix-ui/react-icons';
 import Image from 'next/image';
 import { useState, useEffect } from 'react';
 
 export default function SlugPage({ params }: { params: { slug: string } }) {
+  const [posts, setPosts] = useState<IPost[]>([]);
   const [post, setPost] = useState<IPost | null>(null);
   const [loading, setLoading] = useState(true);
+  const [currentIndex, setCurrentIndex] = useState(0);
+  // prev slug -> newer, next slug -> older posts
+  const [prevSlug, setPrevSlug] = useState<string | undefined>();
+  const [nextSlug, setNextSlug] = useState<string | undefined>();
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         const postData = await getPost(params.slug);
         setPost(postData);
+        const postsData = await getPosts();
+        setPosts(postsData);
+
+        setCurrentIndex(
+          posts.findIndex((eachPost) => eachPost._id === post?._id),
+        );
+        if (currentIndex > 0) {
+          const prevPost = posts.at(currentIndex - 1);
+          setPrevSlug(prevPost?.slug.current);
+        }
+        if (currentIndex < posts.length) {
+          const nextPost = posts.at(currentIndex + 1);
+          setNextSlug(nextPost?.slug.current);
+        }
       } catch (error) {
         console.error('Error fetching post data:', error);
       } finally {
@@ -25,7 +46,7 @@ export default function SlugPage({ params }: { params: { slug: string } }) {
     };
 
     fetchData();
-  }, [params.slug]);
+  }, [currentIndex, params.slug, post?._id, posts]);
 
   if (loading) {
     return (
@@ -46,14 +67,17 @@ export default function SlugPage({ params }: { params: { slug: string } }) {
           <div className='text-center'>Kunne ikke hente data.</div>
         </div>
       </main>
-    );  
+    );
   }
 
   return (
     <main className='flex min-h-screen flex-col justify-between py-6 sm:py-12'>
       <Header />
       <div className='w-full grow justify-center space-y-4 rounded-sm bg-secondary/60 p-6 lg:p-8'>
-        <div className='flex flex-col-reverse items-center space-y-4 px-2 lg:my-8 lg:flex-row lg:justify-center lg:space-x-6 lg:px-10'>
+        <div className='hidden justify-center p-4 text-xl lg:visible lg:flex'>
+          {currentIndex + 1}/{posts.length}
+        </div>
+        <div className='relative flex flex-col-reverse items-center space-y-2 px-2 lg:my-8 lg:flex-row lg:justify-center lg:space-x-6 lg:space-y-4 lg:px-10'>
           <Image
             src={post.mainImage}
             alt={post.title}
@@ -67,6 +91,27 @@ export default function SlugPage({ params }: { params: { slug: string } }) {
               <h2 className='text-accent'>{post.publishedAt}</h2>
             </div>
             <PortableText value={post.description} />
+          </div>
+          <div className='flex flex-row items-center gap-10 pb-2'>
+            {prevSlug && (
+              <a
+                href={prevSlug}
+                className='scale-[1.5] lg:fixed lg:left-28 lg:scale-[3.5]'
+              >
+                <ChevronLeftIcon />
+              </a>
+            )}
+            <div className='visible lg:hidden'>
+              {currentIndex + 1}/{posts.length}
+            </div>
+            {nextSlug && (
+              <a
+                href={nextSlug}
+                className='scale-[1.5] lg:fixed lg:right-28 lg:scale-[3.5]'
+              >
+                <ChevronRightIcon />
+              </a>
+            )}
           </div>
         </div>
         <div className='flex w-full justify-center'>
