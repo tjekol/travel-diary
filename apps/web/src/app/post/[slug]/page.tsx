@@ -93,25 +93,25 @@ export default function SlugPage({ params }: { params: { slug: string } }) {
             <PortableText value={post.description} />
           </div>
           <div className='flex flex-row items-center gap-10 pb-2'>
-            {prevSlug && (
-              <a
-                href={prevSlug}
-                className='scale-[1.5] lg:fixed lg:left-28 lg:scale-[3.5]'
-              >
-                <ChevronLeftIcon />
-              </a>
-            )}
+            <a
+              href={prevSlug}
+              className={`scale-[1.5] lg:fixed lg:left-28 lg:scale-[3.5] ${
+                prevSlug ? 'visible' : 'invisible'
+              } `}
+            >
+              <ChevronLeftIcon />
+            </a>
             <div className='visible lg:hidden'>
               {currentIndex + 1}/{posts.length}
             </div>
-            {nextSlug && (
-              <a
-                href={nextSlug}
-                className='scale-[1.5] lg:fixed lg:right-28 lg:scale-[3.5]'
-              >
-                <ChevronRightIcon />
-              </a>
-            )}
+            <a
+              href={nextSlug}
+              className={`scale-[1.5] lg:fixed lg:right-28 lg:scale-[3.5] ${
+                nextSlug ? 'visible' : 'invisible'
+              }`}
+            >
+              <ChevronRightIcon />
+            </a>
           </div>
         </div>
         <div className='flex w-full justify-center'>
