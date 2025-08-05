@@ -8,9 +8,14 @@ import { IPost } from '@/sanity/post/schemas';
 import { PortableText } from '@portabletext/react';
 import { ChevronLeftIcon, ChevronRightIcon } from '@radix-ui/react-icons';
 import Image from 'next/image';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, use } from 'react';
 
-export default function SlugPage({ params }: { params: { slug: string } }) {
+export default function SlugPage({
+  params,
+}: {
+  params: Promise<{ slug: string }>;
+}) {
+  const { slug } = use(params);
   const [posts, setPosts] = useState<IPost[]>([]);
   const [post, setPost] = useState<IPost | null>(null);
   const [loading, setLoading] = useState(true);
@@ -22,7 +27,7 @@ export default function SlugPage({ params }: { params: { slug: string } }) {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const postData = await getPost(params.slug);
+        const postData = await getPost(slug);
         setPost(postData);
         const postsData = await getPosts();
         setPosts(postsData);
@@ -46,7 +51,7 @@ export default function SlugPage({ params }: { params: { slug: string } }) {
     };
 
     fetchData();
-  }, [currentIndex, params.slug, post?._id, posts]);
+  }, [currentIndex, slug, post?._id, posts]);
 
   if (loading) {
     return (
