@@ -13,6 +13,7 @@ export async function getPost(slug: string): Promise<IPost> {
       description,
       "pictureUrls": pictures[].asset -> url,
       "pictureRefs": pictures[].asset._ref,
+      "travelRef": travel._ref,
     }`;
     return client.fetch(query);
   }
