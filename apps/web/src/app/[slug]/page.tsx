@@ -4,23 +4,41 @@ import Footer from '@/components/footer';
 import Header from '@/components/header';
 import { getPosts } from '@/sanity/post';
 import { IPost } from '@/sanity/post/schemas';
+import { getTravels } from '@/sanity/travel';
+import { ITravel } from '@/sanity/travel/schemas';
 import Image from 'next/image';
-import { useState } from 'react';
+import { use, useState } from 'react';
 import { useEffect } from 'react';
 import { PulseLoader } from 'react-spinners';
 
-export default function Home() {
+export default function TravelPage({
+  params,
+}: {
+  params: Promise<{ slug: string }>;
+}) {
+  const { slug } = use(params);
   const [posts, setPosts] = useState<IPost[]>([]);
+  const [travel, setTravel] = useState<ITravel>();
+
   const [loadingImages, setLoadingImages] = useState<string[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchPosts = async () => {
       try {
-        const posts = await getPosts();
-        setPosts(posts);
+        const travels = await getTravels();
+        const travel = travels.find((travel) => travel.slug.current === slug);
+        setTravel(travel);
 
-        localStorage.setItem('activePage', 'all');
+        if (travel) {
+          localStorage.setItem('activePage', travel.slug.current);
+
+          const posts = await getPosts();
+          const filteredPosts = posts.filter(
+            (post) => post.travelRef === travel._id,
+          );
+          setPosts(filteredPosts);
+        }
       } catch (err) {
         console.error(err);
       } finally {
@@ -28,7 +46,7 @@ export default function Home() {
       }
     };
     fetchPosts();
-  }, []);
+  }, [slug]);
 
   const handleImageLoad = (postId: string) => {
     setLoadingImages((prevLoadingImages) =>

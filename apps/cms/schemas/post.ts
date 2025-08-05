@@ -1,10 +1,17 @@
-import {defineField, defineType} from 'sanity'
+import { defineField, defineType } from 'sanity'
+import travel from './travel'
 
 export default defineType({
   name: 'post',
   title: 'Post',
   type: 'document',
   fields: [
+    defineField({
+      name: 'travel',
+      title: 'Travel',
+      type: 'reference',
+      to: [travel]
+    }),
     defineField({
       name: 'title',
       title: 'Title',
@@ -26,7 +33,6 @@ export default defineType({
       options: {
         hotspot: true,
       },
-      
     }),
     defineField({
       name: 'publishedAt',
@@ -52,8 +58,8 @@ export default defineType({
       media: 'mainImage',
     },
     prepare(selection) {
-      const {author} = selection
-      return {...selection, subtitle: author && `by ${author}`}
+      const { author } = selection
+      return { ...selection, subtitle: author && `by ${author}` }
     },
   },
 })

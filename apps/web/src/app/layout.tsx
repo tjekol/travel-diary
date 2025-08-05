@@ -4,8 +4,8 @@ import './globals.css';
 const inter = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
-  title: 'Melbourne Travel Diary',
-  description: `Thea Jenny's travel diary`,
+  title: 'TJ Reisedagbok',
+  description: `Thea Jenny sin reisedagbok`,
 };
 
 export default function RootLayout({
@@ -18,7 +18,7 @@ export default function RootLayout({
       <head>
         <link
           rel='icon'
-          href='https://em-content.zobj.net/source/apple/391/flag-australia_1f1e6-1f1fa.png'
+          href='https://em-content.zobj.net/source/apple/419/airplane_2708-fe0f.png'
         />
       </head>
       <body className={inter.className}>

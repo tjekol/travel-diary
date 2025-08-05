@@ -12,4 +12,5 @@ export type IPost = {
   pictures: PortableTextBlock[];
   pictureUrls: string[];
   pictureRefs: string[];
+  travelRef: string;
 }

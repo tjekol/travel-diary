@@ -27,21 +27,34 @@ export default function SlugPage({
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const postData = await getPost(slug);
+        const [postData, postsData] = await Promise.all([
+          getPost(slug),
+          getPosts(),
+        ]);
+
         setPost(postData);
-        const postsData = await getPosts();
         setPosts(postsData);
 
-        setCurrentIndex(
-          posts.findIndex((eachPost) => eachPost._id === post?._id),
-        );
-        if (currentIndex > 0) {
-          const prevPost = posts.at(currentIndex - 1);
-          setPrevSlug(prevPost?.slug.current);
-        }
-        if (currentIndex < posts.length) {
-          const nextPost = posts.at(currentIndex + 1);
-          setNextSlug(nextPost?.slug.current);
+        // Calculate index and navigation after we have the data
+        if (postData && postsData.length > 0) {
+          const index = postsData.findIndex(
+            (eachPost) => eachPost._id === postData._id,
+          );
+          setCurrentIndex(index);
+
+          if (index > 0) {
+            const prevPost = postsData[index - 1];
+            setPrevSlug(prevPost?.slug.current);
+          } else {
+            setPrevSlug(undefined);
+          }
+
+          if (index < postsData.length - 1) {
+            const nextPost = postsData[index + 1];
+            setNextSlug(nextPost?.slug.current);
+          } else {
+            setNextSlug(undefined);
+          }
         }
       } catch (error) {
         console.error('Error fetching post data:', error);
@@ -51,7 +64,7 @@ export default function SlugPage({
     };
 
     fetchData();
-  }, [currentIndex, slug, post?._id, posts]);
+  }, [slug]);
 
   if (loading) {
     return (

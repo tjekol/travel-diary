@@ -5,7 +5,7 @@ import { schemaTypes } from './schemas'
 
 export default defineConfig({
   name: 'default',
-  title: 'melbourne',
+  title: 'travel-diary',
 
   projectId: process.env.SANITY_STUDIO_PROJECT_ID || '',
   dataset: 'production',
