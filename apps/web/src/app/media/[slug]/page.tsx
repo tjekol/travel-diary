@@ -5,15 +5,20 @@ import Header from '@/components/header';
 import { getMedia } from '@/sanity/media/[slug]';
 import { IMedia } from '@/sanity/media/schemas';
 import Image from 'next/image';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, use } from 'react';
 
-export default function SlugMedia({ params }: { params: { slug: string } }) {
+export default function SlugMedia({
+  params,
+}: {
+  params: Promise<{ slug: string }>;
+}) {
+  const { slug } = use(params);
   const [media, setMedia] = useState<IMedia | null>(null);
 
   useEffect(() => {
     const fetchMedia = async () => {
       try {
-        const mediaData = await getMedia(params.slug);
+        const mediaData = await getMedia(slug);
         setMedia(mediaData);
       } catch (error) {
         console.error('Error fetching media data:', error);
@@ -21,7 +26,7 @@ export default function SlugMedia({ params }: { params: { slug: string } }) {
     };
 
     fetchMedia();
-  }, [params]);
+  }, [slug]);
 
   if (!media) {
     return (
@@ -37,7 +42,7 @@ export default function SlugMedia({ params }: { params: { slug: string } }) {
   return (
     <main className='flex min-h-screen flex-col justify-between py-6 sm:py-12'>
       <Header />
-      <div className='w-1/2 h-1/2'>
+      <div className='h-1/2 w-1/2'>
         <Image
           className='aspect-image w-full'
           src={media.slug}
