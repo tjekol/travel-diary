@@ -1,32 +1,51 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import 'tailwindcss';
 
-@layer base {
-  :root {
-    --text: #1d100c;
-    --background: #F6EDEA;
-    --primary: #bf7763;
-    --secondary: #e1c0b7;
-    --accent: #914e3b;
+:root {
+  @theme {
+    --color-text: #1d100c;
+    --color-background: #f6edea;
+    --color-primary: #bf7763;
+    --color-secondary: #e1c0b7;
+    --color-accent: #914e3b;
   }
-  .dark {
-    --text: #f3e6e2;
-    --background: #0b0604;
-    --primary: #9c5440;
-    --secondary: #48271e;
-    --accent: #c4816e;
-  }
+}
+
+.dark {
+  --text: #f3e6e2;
+  --background: #0b0604;
+  --primary: #9c5440;
+  --secondary: #48271e;
+  --accent: #c4816e;
+}
+
+h1 {
+  font-size: 1.5rem; /* text-2xl */
+  color: var(--text); /* text-text */
+}
+
+h2 {
+  font-size: 1.125rem; /* text-lg */
+  color: var(--text); /* text-text */
+}
+
+h3 {
+  font-size: 1rem; /* text-base */
+  line-height: 1.5rem; /* leading-normal */
+  color: var(--text);
+}
+
+p {
+  font-size: 0.875rem; /* text-sm */
+}
+
+@media (min-width: 640px) {
   h1 {
-    @apply text-2xl sm:text-4xl text-text;
+    font-size: 2.25rem; /* sm:text-4xl */
   }
   h2 {
-    @apply text-lg sm:text-2xl text-text;
-  }
-  h3 {
-    @apply text-base;
+    font-size: 1.5rem; /* sm:text-2xl */
   }
   p {
-    @apply text-sm sm:text-base;
+    font-size: 1rem; /* sm:text-base */
   }
 }
