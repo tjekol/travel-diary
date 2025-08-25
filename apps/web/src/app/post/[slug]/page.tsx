@@ -120,8 +120,8 @@ export default function SlugPage({
           <Image
             src={post.mainImage}
             alt={post.title}
-            width={300}
-            height={100}
+            width={600}
+            height={600}
             className='w-auto min-w-1/3'
           />
           <div className='space-y-4 self-center pb-6 lg:w-2/5 lg:space-y-6'>
