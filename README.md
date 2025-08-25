@@ -1,4 +1,4 @@
 # Travel diary
 
-- `dev:web` to run server `localhost:300`
-- `dev:cms` to run server `localhost:3333`
+- `npm run dev:web` to run server `localhost:300`
+- `npm run dev:cms` to run server `localhost:3333`
