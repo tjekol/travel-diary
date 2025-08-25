@@ -70,7 +70,7 @@ export default function SlugPage({
     return (
       <main className='flex min-h-screen w-full flex-col justify-between py-12'>
         <Header />
-        <div className='w-full grow rounded-sm bg-secondary/60 p-8'>
+        <div className='bg-secondary/60 w-full grow rounded-sm p-8'>
           <div className='text-center'>Laster...</div>
         </div>
       </main>
@@ -81,7 +81,7 @@ export default function SlugPage({
     return (
       <main className='flex min-h-screen w-full flex-col justify-between sm:py-12'>
         <Header />
-        <div className='w-full grow rounded-sm bg-secondary/60 p-8'>
+        <div className='bg-secondary/60 w-full grow rounded-sm p-8'>
           <div className='text-center'>Kunne ikke hente data.</div>
         </div>
       </main>
@@ -91,25 +91,11 @@ export default function SlugPage({
   return (
     <main className='flex min-h-screen flex-col justify-between py-6 sm:py-12'>
       <Header />
-      <div className='w-full grow justify-center space-y-4 rounded-sm bg-secondary/60 p-6 lg:p-8'>
+      <div className='bg-secondary/60 w-full grow justify-center space-y-4 rounded-sm p-6 lg:p-8'>
         <div className='hidden justify-center p-4 text-xl lg:visible lg:flex'>
           {currentIndex + 1}/{posts.length}
         </div>
-        <div className='relative flex flex-col-reverse items-center space-y-2 px-2 lg:my-8 lg:flex-row lg:justify-center lg:space-x-6 lg:space-y-4 lg:px-10'>
-          <Image
-            src={post.mainImage}
-            alt={post.title}
-            width={300}
-            height={100}
-            className='w-full lg:w-1/4'
-          />
-          <div className='space-y-4 self-center pb-6 lg:w-2/5 lg:max-w-[520px] lg:space-y-6 lg:self-start'>
-            <div className='lg:space-y-2'>
-              <h1 className='font-semibold'>{post.title}</h1>
-              <h2 className='text-accent'>{post.publishedAt}</h2>
-            </div>
-            <PortableText value={post.description} />
-          </div>
+        <div className='relative flex flex-col items-center space-y-2 px-2 lg:my-8 lg:flex-col lg:justify-center lg:space-y-4 lg:space-x-6 lg:px-10'>
           <div className='flex flex-row items-center gap-10 pb-2'>
             {prevSlug && (
               <a
@@ -131,9 +117,23 @@ export default function SlugPage({
               </a>
             )}
           </div>
+          <Image
+            src={post.mainImage}
+            alt={post.title}
+            width={300}
+            height={100}
+            className='w-auto min-w-1/3'
+          />
+          <div className='space-y-4 self-center pb-6 lg:w-2/5 lg:space-y-6'>
+            <div className='lg:space-y-2'>
+              <h1 className='font-semibold'>{post.title}</h1>
+              <h2 className='text-accent'>{post.publishedAt}</h2>
+            </div>
+            <PortableText value={post.description} />
+          </div>
         </div>
         <div className='flex w-full justify-center'>
-          <div className='px-30 w-full columns-2 gap-x-4 lg:w-3/4 lg:columns-4'>
+          <div className='w-full columns-2 gap-x-4 px-2 lg:w-3/4 lg:columns-3 lg:px-30'>
             {post.pictureUrls.map(
               (pictureUrl, index) =>
                 pictureUrl !== null && (
