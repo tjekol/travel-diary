@@ -133,7 +133,7 @@ export default function SlugPage({
           </div>
         </div>
         <div className='flex w-full justify-center'>
-          <div className='w-full columns-2 gap-x-4 px-2 lg:w-3/4 lg:columns-3 lg:px-30'>
+          <div className='w-full columns-1 gap-x-4 px-2 lg:w-3/4 lg:columns-3 lg:px-30'>
             {post.pictureUrls.map(
               (pictureUrl, index) =>
                 pictureUrl !== null && (
