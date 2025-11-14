@@ -48,7 +48,32 @@ export default defineType({
       name: 'pictures',
       title: 'Pictures',
       type: 'blockContent',
+      readOnly: true,
+      deprecated: {
+        reason: 'Use the "Images" field instead.'
+      }
     }),
+    defineField({
+      name: 'images',
+      type: 'array',
+      of: [
+        defineField({
+          name: 'image',
+          type: 'image',
+          options: { hotspot: true },
+          fields: [
+            {
+              name: 'alt',
+              type: 'string',
+              title: 'Alternative text',
+            },
+          ],
+        }),
+      ],
+      options: {
+        layout: 'grid',
+      },
+    })
   ],
 
   preview: {

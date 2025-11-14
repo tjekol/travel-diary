@@ -4,7 +4,7 @@ import { ITravel } from './schemas';
 export async function getTravels(): Promise<ITravel[]> {
   try {
     const { client } = await import('@/sanity/client');
-    const query = groq`*[_type == 'travel'] | order(publishedAt desc) {
+    const query = groq`*[_type == 'travel'] | order(_createdAt desc) {
       _id,
       title,
       slug,
