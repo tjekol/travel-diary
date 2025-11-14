@@ -1,7 +1,7 @@
 import { IMedia } from '../schemas';
 import { groq } from 'next-sanity';
 
-export async function getMedia(ref: string) : Promise<IMedia> {
+export async function getMedia(ref: string): Promise<IMedia> {
   try {
     const { client } = await import('@/sanity/client');
     const query = groq`*[_type == "post"]{
@@ -15,5 +15,3 @@ export async function getMedia(ref: string) : Promise<IMedia> {
     throw error;
   }
 }
-
-
