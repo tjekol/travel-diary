@@ -5,6 +5,7 @@ import { ITravel } from '@/sanity/travel/schemas';
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
+import LoginButton from './loginButton';
 
 export default function Header() {
   const [travels, setTravels] = useState<ITravel[]>([]);
@@ -29,6 +30,7 @@ export default function Header() {
   return (
     <>
       <div className='mb-10 mt-5 self-center'>
+        <LoginButton />
         <Link href='/'>
           <h1 className='text-center font-serif font-semibold'>
             TJ&apos;s Reisedagbok✈️
