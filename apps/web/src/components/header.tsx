@@ -29,13 +29,13 @@ export default function Header() {
 
   return (
     <>
-      <div className='mb-10 mt-5 self-center'>
+      <div className='mt-5 mb-10 self-center'>
         <LoginButton />
         <Link href='/'>
           <h1 className='text-center font-serif font-semibold'>
             TJ&apos;s Reisedagbok✈️
           </h1>
-          <h3 className='text-center text-text/60'>
+          <h3 className='text-text/60 text-center'>
             Følg min reise rundt i verden!
           </h3>
         </Link>
@@ -47,14 +47,14 @@ export default function Header() {
             <button
               key={travel._id}
               onClick={() => router.push(`/${travel.slug.current}`)}
-              className={`rounded-md ${activePage === travel.slug.current ? 'bg-accent/70' : 'bg-accent/40'} p-2 text-background hover:bg-accent/70`}
+              className={`rounded-md ${activePage === travel.slug.current ? 'bg-accent/70' : 'bg-accent/40'} text-background hover:bg-accent/70 p-2`}
             >
               {travel.title}
             </button>
           ))}
           <button
             onClick={() => router.push(`/`)}
-            className={`rounded-md ${activePage === 'all' ? 'bg-accent/70' : 'bg-accent/40'} p-2 text-background hover:bg-accent/70`}
+            className={`rounded-md ${activePage === 'all' ? 'bg-accent/70' : 'bg-accent/40'} text-background hover:bg-accent/70 p-2`}
           >
             Alle innlegg
           </button>
