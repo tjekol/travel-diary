@@ -2,6 +2,7 @@
 
 import { supabase } from '@/app/utils/client';
 import { User } from '@supabase/supabase-js';
+import Link from 'next/link';
 import { useEffect, useState } from 'react';
 
 export default function LoginButton() {
@@ -14,6 +15,7 @@ export default function LoginButton() {
         data: { user },
         error,
       } = await supabase.auth.getUser();
+      if (error) console.error('User error:', error.message);
       if (user) setUser(user);
     }
     fetchUser();
@@ -29,20 +31,14 @@ export default function LoginButton() {
     if (error) console.error('Login error:', error.message);
   };
 
-  const handleLogout = async () => {
-    const { error } = await supabase.auth.signOut();
-    if (error) console.error('Login error:', error.message);
-  };
-
   return (
     <>
       {user !== null ? (
-        <button
-          onClick={handleLogout}
-          className='bg-accent hover:bg-accent/70 absolute top-10 right-10 rounded-md px-4 py-2 text-white'
-        >
-          Logout, {user.email}
-        </button>
+        <Link href={`/profile/${user.id}`}>
+          <button className='bg-accent hover:bg-accent/70 absolute top-10 right-10 rounded-md px-4 py-2 text-white'>
+            Profile
+          </button>
+        </Link>
       ) : (
         <button
           onClick={handleLogin}
