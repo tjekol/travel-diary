@@ -40,7 +40,7 @@ export default function Home() {
     return (
       <main className='flex min-h-screen w-full flex-col justify-between py-12'>
         <Header />
-        <div className='w-full grow rounded-sm bg-secondary/60 p-8'>
+        <div className='bg-secondary/60 w-full grow rounded-sm p-8'>
           <div className='text-center'>Laster...</div>
         </div>
       </main>
@@ -60,7 +60,7 @@ export default function Home() {
             {posts.map((post) => (
               <div
                 key={post._id}
-                className='rounded-sm bg-primary/70 p-1 hover:scale-105 sm:p-2'
+                className='bg-primary/70 rounded-sm p-1 hover:scale-105 sm:p-2'
               >
                 {loadingImages.includes(post._id) && <PulseLoader size={10} />}
                 <a href={'post/' + post.slug.current}>
@@ -75,7 +75,7 @@ export default function Home() {
                     height={400}
                   />
                   <p className='text-text'>{post.title}</p>
-                  <p className='font-light text-accent'>{post.publishedAt}</p>
+                  <p className='text-accent font-light'>{post.publishedAt}</p>
                 </a>
               </div>
             ))}
