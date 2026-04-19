@@ -10,7 +10,7 @@ import { ChevronLeftIcon, ChevronRightIcon } from '@radix-ui/react-icons';
 import Image from 'next/image';
 import { useState, useEffect, use } from 'react';
 
-export default function SlugPage({
+export default function PostPage({
   params,
 }: {
   params: Promise<{ slug: string }>;
