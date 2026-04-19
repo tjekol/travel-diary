@@ -1,5 +1,7 @@
 'use client';
 
+import { supabase } from '@/app/utils/client';
+import { Eye } from '@gravity-ui/icons';
 import Footer from '@/components/footer';
 import Header from '@/components/header';
 import { getPosts } from '@/sanity/post';
@@ -23,6 +25,22 @@ export default function PostPage({
   // prev slug -> newer, next slug -> older posts
   const [prevSlug, setPrevSlug] = useState<string | undefined>();
   const [nextSlug, setNextSlug] = useState<string | undefined>();
+  const [viewer_count, setViewer_count] = useState<number | null>(null);
+
+  // increment then read viewer_count
+  useEffect(() => {
+    const updateAndReadViews = async () => {
+      await supabase.rpc('increment_views', { post_slug: slug });
+      const { data, error } = await supabase
+        .from('post_views')
+        .select('views')
+        .eq('slug', slug)
+        .single();
+      if (error) console.error('View count error:', error.message);
+      if (data) setViewer_count(data.views);
+    };
+    updateAndReadViews();
+  }, [slug]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -124,6 +142,13 @@ export default function PostPage({
             height={600}
             className='w-auto min-w-1/3'
           />
+          {/* Views */}
+          <div>
+            <span className='flex items-center gap-1'>
+              <Eye />
+              {viewer_count}
+            </span>
+          </div>
           <div className='space-y-4 self-center pb-6 lg:w-2/5 lg:space-y-6'>
             <div className='lg:space-y-2'>
               <h1 className='font-semibold'>{post.title}</h1>
