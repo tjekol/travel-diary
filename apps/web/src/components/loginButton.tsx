@@ -13,9 +13,7 @@ export default function LoginButton() {
       // Fetches user details from Supabase Auth server
       const {
         data: { user },
-        error,
       } = await supabase.auth.getUser();
-      if (error) console.error('User error:', error.message);
       if (user) setUser(user);
     }
     fetchUser();
