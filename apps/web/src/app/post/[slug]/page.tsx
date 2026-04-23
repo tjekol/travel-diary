@@ -11,6 +11,7 @@ import { PortableText } from '@portabletext/react';
 import { ChevronLeftIcon, ChevronRightIcon } from '@radix-ui/react-icons';
 import Image from 'next/image';
 import { useState, useEffect, use } from 'react';
+import Like from '@/components/like';
 
 export default function PostPage({
   params,
@@ -168,12 +169,13 @@ export default function PostPage({
             height={600}
             className='w-auto min-w-1/3'
           />
-          {/* Views */}
-          <div>
+          {/* Views, Like */}
+          <div className='flex gap-4'>
             <span className='flex items-center gap-1'>
               <Eye />
               {viewer_count}
             </span>
+            <Like isFilled={true} />
           </div>
           <div className='space-y-4 self-center pb-6 lg:w-2/5 lg:space-y-6'>
             <div className='lg:space-y-2'>
