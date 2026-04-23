@@ -25,21 +25,47 @@ export default function PostPage({
   // prev slug -> newer, next slug -> older posts
   const [prevSlug, setPrevSlug] = useState<string | undefined>();
   const [nextSlug, setNextSlug] = useState<string | undefined>();
-  const [viewer_count, setViewer_count] = useState<number | null>(null);
+  const [viewer_count, setViewer_count] = useState<number>(0);
 
   // increment then read viewer_count
   useEffect(() => {
-    const updateAndReadViews = async () => {
-      await supabase.rpc('increment_views', { post_slug: slug });
+    const updateAndReadViews = async (post_id: string) => {
+      // 1. Get viewer ID (logged-in user or anonymous fingerprint)
+      const {
+        data: { user },
+      } = await supabase.auth.getUser();
+      let viewer_id;
+
+      if (user) {
+        viewer_id = user.id;
+      } else {
+        // Generate a persistent anonymous ID
+        viewer_id = localStorage.getItem('anon_id');
+        if (!viewer_id) {
+          viewer_id = crypto.randomUUID();
+          localStorage.setItem('anon_id', viewer_id);
+        }
+      }
+
+      const { error: user_logged } = await supabase
+        .from('view_logs')
+        .insert({ post_id: post_id, user_id: viewer_id });
+
+      // 3. Only increment if this is a new view (no conflict error)
+      if (!user_logged) {
+        await supabase.rpc('increment_view_count', { p_post_id: post_id });
+      }
       const { data, error } = await supabase
         .from('post_views')
-        .select('views')
-        .eq('slug', slug)
+        .select('view_count')
+        .eq('post_id', post_id)
         .single();
+
       if (error) console.error('View count error:', error.message);
-      if (data) setViewer_count(data.views);
+      if (data) setViewer_count(data.view_count);
     };
-    updateAndReadViews();
+
+    updateAndReadViews(slug);
   }, [slug]);
 
   useEffect(() => {
