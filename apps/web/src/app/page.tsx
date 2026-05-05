@@ -56,7 +56,7 @@ export default function Home() {
             Ingen innlegg…
           </div>
         ) : (
-          <div className='mx-auto grid w-full grid-cols-2 items-center justify-center gap-3 self-center sm:gap-4 lg:w-5/6 xl:grid-cols-4'>
+          <div className='mx-auto grid w-full grid-cols-2 justify-items-center gap-3 sm:gap-4 lg:w-5/6 xl:grid-cols-4'>
             {posts.map((post) => (
               <div
                 key={post._id}
