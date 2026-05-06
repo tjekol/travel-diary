@@ -30,7 +30,9 @@ export default function Header() {
   return (
     <>
       <div className='mt-5 mb-10 self-center'>
-        <LoginButton />
+        <div className='absolute right-10'>
+          <LoginButton />
+        </div>
         <Link href='/'>
           <h1 className='text-center font-serif font-semibold'>
             TJ&apos;s Reisedagbok✈️

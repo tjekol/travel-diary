@@ -30,6 +30,7 @@ export default function ProfilePage({
   const handleLogout = async () => {
     const { error } = await supabase.auth.signOut();
     if (error) console.error('Login error:', error.message);
+    window.location.replace('/');
   };
 
   return (
