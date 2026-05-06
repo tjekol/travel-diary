@@ -65,7 +65,6 @@ export default function PostPage({
       if (error) console.error('View count error:', error.message);
       if (data) setViewer_count(data.view_count);
     };
-
     updateAndReadViews(slug);
   }, [slug]);
 
@@ -175,7 +174,9 @@ export default function PostPage({
               <Eye />
               {viewer_count}
             </span>
-            <Like isFilled={true} />
+            <span className='flex items-center gap-1'>
+              <Like post_id={slug} />
+            </span>
           </div>
           <div className='space-y-4 self-center pb-6 lg:w-2/5 lg:space-y-6'>
             <div className='lg:space-y-2'>
