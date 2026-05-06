@@ -36,8 +36,8 @@ export default function ProfilePage({
   return (
     <main className='flex min-h-screen flex-col justify-between p-6 sm:p-12'>
       <Header />
-      <div className='bg-secondary/60 flex w-full grow flex-col justify-between space-y-4 rounded-sm p-6 lg:p-8'>
-        <div className='flex flex-col'>
+      <div className='flex w-full flex-1 flex-col space-y-4'>
+        <div className='bg-secondary/60 flex flex-col rounded-sm p-6 lg:p-8'>
           <h2>Hi, {user?.email}</h2>
           <span>Your liked posts:</span>
           <span>Comments posted by you:</span>
