@@ -9,4 +9,4 @@ updates:
     directory: "/apps/web" # Location of package manifests
     schedule:
       interval: "weekly"
-    open-pull-requests-limit: 10
+    open-pull-requests-limit: 2
