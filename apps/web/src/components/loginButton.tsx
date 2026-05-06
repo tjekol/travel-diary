@@ -23,7 +23,7 @@ export default function LoginButton() {
     const { error } = await supabase.auth.signInWithOAuth({
       provider: 'google',
       options: {
-        redirectTo: window.location.origin, // redirect back to your site after login
+        redirectTo: window.location.href, // redirect back to your site after login
       },
     });
     if (error) console.error('Login error:', error.message);
@@ -33,14 +33,14 @@ export default function LoginButton() {
     <>
       {user !== null ? (
         <Link href={`/profile/${user.id}`}>
-          <button className='bg-accent hover:bg-accent/70 absolute top-10 right-10 rounded-md px-4 py-2 text-white'>
+          <button className='bg-accent hover:bg-accent/70 rounded-md px-4 py-2 text-white'>
             Profile
           </button>
         </Link>
       ) : (
         <button
           onClick={handleLogin}
-          className='bg-accent hover:bg-accent/70 absolute top-10 right-10 rounded-md px-4 py-2 text-white'
+          className='bg-accent hover:bg-accent/70 rounded-md px-4 py-2 text-white'
         >
           Login
         </button>
