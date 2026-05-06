@@ -26,7 +26,7 @@ export default function PostPage({
   // prev slug -> newer, next slug -> older posts
   const [prevSlug, setPrevSlug] = useState<string | undefined>();
   const [nextSlug, setNextSlug] = useState<string | undefined>();
-  const [viewer_count, setViewer_count] = useState<number>(0);
+  const [viewer_count, setViewerCount] = useState<number>(0);
 
   // increment then read viewer_count
   useEffect(() => {
@@ -63,7 +63,7 @@ export default function PostPage({
         .single();
 
       if (error) console.error('View count error:', error.message);
-      if (data) setViewer_count(data.view_count);
+      if (data) setViewerCount(data.view_count);
     };
     updateAndReadViews(slug);
   }, [slug]);
