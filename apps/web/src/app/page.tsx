@@ -48,7 +48,7 @@ export default function Home() {
   }
 
   return (
-    <main className='flex min-h-screen flex-col justify-between p-6 sm:p-12'>
+    <main className='flex min-h-screen w-full flex-col justify-between p-6 sm:p-12'>
       <div>
         <Header />
         {posts.length < 1 ? (

@@ -28,11 +28,8 @@ export default function Header() {
   }, []);
 
   return (
-    <>
-      <div className='mt-5 mb-10 self-center'>
-        <div className='absolute right-10'>
-          <LoginButton />
-        </div>
+    <div className='flex w-full flex-col gap-2'>
+      <div className='mt-5 self-center'>
         <Link href='/'>
           <h1 className='text-center font-serif font-semibold'>
             TJ&apos;s Reisedagbok✈️
@@ -43,25 +40,27 @@ export default function Header() {
         </Link>
       </div>
 
-      <div className='mb-10 flex justify-center gap-2'>
-        <>
-          {travels.map((travel) => (
-            <button
-              key={travel._id}
-              onClick={() => router.push(`/${travel.slug.current}`)}
-              className={`rounded-md ${activePage === travel.slug.current ? 'bg-accent/70' : 'bg-accent/40'} text-background hover:bg-accent/70 p-2`}
-            >
-              {travel.title}
-            </button>
-          ))}
-          <button
-            onClick={() => router.push(`/`)}
-            className={`rounded-md ${activePage === 'all' ? 'bg-accent/70' : 'bg-accent/40'} text-background hover:bg-accent/70 p-2`}
-          >
-            Alle innlegg
-          </button>
-        </>
+      <div className='m-auto md:absolute md:right-10'>
+        <LoginButton />
       </div>
-    </>
+
+      <div className='mb-8 flex h-12 justify-start gap-2 overflow-x-auto overflow-y-hidden md:justify-center'>
+        <button
+          onClick={() => router.push('/')}
+          className={`rounded-md ${activePage === 'all' ? 'bg-accent/70' : 'bg-accent/40'} text-background hover:bg-accent/70 px-4`}
+        >
+          Alle innlegg
+        </button>
+        {travels.map((travel) => (
+          <button
+            key={travel._id}
+            onClick={() => router.push(`/${travel.slug.current}`)}
+            className={`rounded-md ${activePage === travel.slug.current ? 'bg-accent/70' : 'bg-accent/40'} text-background hover:bg-accent/70 px-2 whitespace-nowrap`}
+          >
+            {travel.title}
+          </button>
+        ))}
+      </div>
+    </div>
   );
 }
