@@ -2,16 +2,26 @@ name: Keep Supabase Alive
 
 on:
   schedule:
-    # Run at midnight (0 0 * *) on Sunday (0) and Friday(5)
-    - cron: '0 0 * * 0,5'
+    # Runs every 3 days. Frequent runs prevent GitHub from pausing the cron.
+    - cron: '0 0 */3 * *'
   workflow_dispatch:
 
 jobs:
   ping:
     runs-on: ubuntu-latest
     steps:
-      - name: Ping Supabase Database
+      - name: Force Database Write
         run: |
-          curl -X GET "${{ secrets.SUPABASE_URL }}/rest/v1/post_views?select=post_id&limit=1" \
+          STATUS=$(curl -s -o /dev/null -w "%{http_code}" -X POST "${{ secrets.SUPABASE_URL }}/rest/v1/keep_alive" \
           -H "apikey: ${{ secrets.SUPABASE_KEY }}" \
-          -H "Authorization: Bearer ${{ secrets.SUPABASE_KEY }}"
+          -H "Authorization: Bearer ${{ secrets.SUPABASE_KEY }}" \
+          -H "Content-Type: application/json" \
+          -H "Prefer: return=minimal" \
+          -d '{}')
+
+          if [ "$STATUS" -eq 201 ] || [ "$STATUS" -eq 204 ]; then
+            echo "Success: Database write registered (Status $STATUS)."
+          else
+            echo "Error: Request failed with status $STATUS."
+            exit 1
+          fi
