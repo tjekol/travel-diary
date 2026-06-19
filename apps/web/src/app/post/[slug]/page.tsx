@@ -1,6 +1,5 @@
 'use client';
 
-import { supabase } from '@/app/utils/client';
 import { Eye } from '@gravity-ui/icons';
 import Footer from '@/components/footer';
 import Header from '@/components/header';
@@ -12,6 +11,16 @@ import { ChevronLeftIcon, ChevronRightIcon } from '@radix-ui/react-icons';
 import Image from 'next/image';
 import { useState, useEffect, use } from 'react';
 import Like from '@/components/like';
+import { onAuthStateChanged } from 'firebase/auth';
+import { auth, db } from '@/app/utils/firebase';
+import {
+  addDoc,
+  collection,
+  query,
+  where,
+  getDocs,
+  getCountFromServer,
+} from 'firebase/firestore';
 
 export default function PostPage({
   params,
@@ -27,46 +36,61 @@ export default function PostPage({
   const [prevSlug, setPrevSlug] = useState<string | undefined>();
   const [nextSlug, setNextSlug] = useState<string | undefined>();
   const [viewer_count, setViewerCount] = useState<number>(0);
+  const [user_id, setUser_id] = useState<string>();
 
   // increment then read viewer_count
   useEffect(() => {
-    const updateAndReadViews = async (post_id: string) => {
-      // 1. Get viewer ID (logged-in user or anonymous fingerprint)
-      const {
-        data: { user },
-      } = await supabase.auth.getUser();
+    // 1. Get viewer ID (logged-in user or anonymous fingerprint)
+    onAuthStateChanged(auth, (user) => {
       let viewer_id;
-
       if (user) {
-        viewer_id = user.id;
+        viewer_id = user.uid;
       } else {
-        // Generate a persistent anonymous ID
         viewer_id = localStorage.getItem('anon_id');
         if (!viewer_id) {
+          // Generate a persistent anonymous ID
           viewer_id = crypto.randomUUID();
           localStorage.setItem('anon_id', viewer_id);
         }
       }
+      setUser_id(viewer_id);
+    });
+  }, []);
 
-      const { error: user_logged } = await supabase
-        .from('view_logs')
-        .insert({ post_id: post_id, user_id: viewer_id });
+  useEffect(() => {
+    const updateAndReadViews = async (post_id: string) => {
+      if (user_id) {
+        try {
+          // Log if view is not already logged to user
+          const q = query(
+            collection(db, 'view_logs'),
+            where('post_id', '==', post_id),
+            where('user_id', '==', user_id),
+          );
+          const snapshot = await getDocs(q);
 
-      // 3. Only increment if this is a new view (no conflict error)
-      if (!user_logged) {
-        await supabase.rpc('increment_view_count', { p_post_id: post_id });
+          if (snapshot.empty) {
+            const docRef = await addDoc(collection(db, 'view_logs'), {
+              post_id: post_id,
+              user_id: user_id,
+            });
+            console.log('Document written with ID: ', docRef.id);
+          } else {
+            console.log('View already logged for this user and post');
+          }
+        } catch (e) {
+          console.error('Error adding document: ', e);
+        }
+
+        // 3. Read views
+        const docRef = collection(db, 'view_logs');
+        const q = query(docRef, where('post_id', '==', post_id));
+        const snapshot = await getCountFromServer(q);
+        setViewerCount(snapshot.data().count);
       }
-      const { data, error } = await supabase
-        .from('post_views')
-        .select('view_count')
-        .eq('post_id', post_id)
-        .single();
-
-      if (error) console.error('View count error:', error.message);
-      if (data) setViewerCount(data.view_count);
     };
     updateAndReadViews(slug);
-  }, [slug]);
+  }, [slug, user_id]);
 
   useEffect(() => {
     const fetchData = async () => {

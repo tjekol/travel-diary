@@ -1,9 +1,21 @@
-import { supabase } from '@/app/utils/client';
 import { Heart } from '@gravity-ui/icons';
 import { HeartFill } from '@gravity-ui/icons';
 import { ToggleButton, AlertDialog, Button } from '@heroui/react';
 import { useEffect, useState } from 'react';
 import LoginButton from './loginButton';
+import { onAuthStateChanged } from 'firebase/auth';
+import { auth, db } from '@/app/utils/firebase';
+import {
+  addDoc,
+  collection,
+  deleteDoc,
+  doc,
+  getCountFromServer,
+  getDocs,
+  query,
+  serverTimestamp,
+  where,
+} from 'firebase/firestore';
 
 export default function Like({ post_id }: { post_id: string }) {
   const [isLiked, setIsLiked] = useState(false);
@@ -12,70 +24,69 @@ export default function Like({ post_id }: { post_id: string }) {
 
   useEffect(() => {
     const userHasLiked = async (post_id: string) => {
-      const {
-        data: { user },
-      } = await supabase.auth.getUser();
-
-      let userHasLiked = false;
-      if (user) {
-        const { data } = await supabase
-          .from('post_likes')
-          .select('user_id')
-          .eq('user_id', user.id)
-          .eq('post_id', post_id)
-          .single();
-
-        userHasLiked = !!data;
-      }
-      setIsLiked(userHasLiked);
+      onAuthStateChanged(auth, async (user) => {
+        if (user) {
+          const user_id = user.uid;
+          const docRef = collection(db, 'post_likes');
+          const q = query(
+            docRef,
+            where('post_id', '==', post_id),
+            where('user_id', '==', user_id),
+          );
+          const snapshot = await getDocs(q);
+          if (snapshot.empty) {
+            setIsLiked(false);
+          } else {
+            setIsLiked(true);
+          }
+        }
+      });
     };
     userHasLiked(post_id);
     getLikes(post_id);
   }, [post_id, isLiked]);
-  const getLikes = async (post_id: string) => {
-    const { count: like_count, error } = await supabase
-      .from('post_likes')
-      .select('*', { count: 'exact', head: true })
-      .eq('post_id', post_id);
 
-    if (error) console.error('Like count error:', error.message);
-    if (like_count !== null) setLikeCount(like_count);
+  const getLikes = async (post_id: string) => {
+    const docRef = collection(db, 'post_likes');
+    const q = query(docRef, where('post_id', '==', post_id));
+    const snapshot = await getCountFromServer(q);
+    setLikeCount(snapshot.data().count);
   };
 
   const toggleLike = async (post_id: string) => {
-    const {
-      data: { user },
-    } = await supabase.auth.getUser();
-    if (!user) {
-      setShowAlert(true);
-      return;
-    }
+    onAuthStateChanged(auth, async (user) => {
+      if (user) {
+        const user_id = user.uid;
+        const q = query(
+          collection(db, 'post_likes'),
+          where('post_id', '==', post_id),
+          where('user_id', '==', user_id),
+        );
+        const snapshot = await getDocs(q);
 
-    const { data: existingLike } = await supabase
-      .from('post_likes')
-      .select('user_id')
-      .eq('user_id', user.id)
-      .eq('post_id', post_id)
-      .single();
-
-    if (existingLike) {
-      // already liked → unlike
-      await supabase
-        .from('post_likes')
-        .delete()
-        .eq('user_id', user.id)
-        .eq('post_id', post_id);
-
-      setIsLiked(false);
-      getLikes(post_id);
-    } else {
-      // not liked yet → like
-      await supabase
-        .from('post_likes')
-        .insert({ user_id: user.id, post_id: post_id });
-      setIsLiked(true);
-      getLikes(post_id);
-    }
+        if (snapshot.empty) {
+          // not liked yet → like
+          const docRef = await addDoc(collection(db, 'post_likes'), {
+            post_id: post_id,
+            user_id: user_id,
+            created_at: serverTimestamp(),
+          });
+          console.log('Like written with ID: ', docRef.id);
+          setIsLiked(true);
+          getLikes(post_id);
+        } else {
+          // already liked → unlike
+          const docId = snapshot.docs[0].id;
+          await deleteDoc(doc(db, 'post_likes', docId));
+          console.log('Like removed');
+          setIsLiked(false);
+          getLikes(post_id);
+        }
+      } else {
+        setShowAlert(true);
+        return;
+      }
+    });
   };
 
   return (
