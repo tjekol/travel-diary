@@ -41,7 +41,7 @@ export default function LoginButton() {
       {user ? (
         <Link href={`/profile/${user.uid}`}>
           <button className='bg-accent hover:bg-accent/70 rounded-md px-4 py-2 text-white'>
-            Profile
+            Profil
           </button>
         </Link>
       ) : (
@@ -49,7 +49,7 @@ export default function LoginButton() {
           onClick={handleLogin}
           className='bg-accent hover:bg-accent/70 rounded-md px-4 py-2 text-white'
         >
-          Login
+          Logg inn
         </button>
       )}
     </>
