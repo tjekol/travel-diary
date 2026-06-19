@@ -61,26 +61,28 @@ export default function ProfilePage({
       <Header />
       <div className='flex w-full flex-1 flex-col space-y-4'>
         <div className='bg-secondary/60 flex flex-col gap-4 rounded-sm p-6 lg:p-8'>
-          <h2>Hi, {user?.displayName}</h2>
+          <h2>Hei, {user?.displayName}</h2>
+          {data && (
+            <span>
+              <b>Likte innlegg:</b>
+              <ul className='flex flex-col'>
+                {data.map((d, i) => (
+                  <a href={`/post/${d.post_id}`} key={i}>
+                    {d.post_id}
+                  </a>
+                ))}
+              </ul>
+            </span>
+          )}
           <span>
-            <b>Liked posts:</b>
-            <ul className='flex flex-col'>
-              {data.map((d, i) => (
-                <a href={`/post/${d.post_id}`} key={i}>
-                  {d.post_id}
-                </a>
-              ))}
-            </ul>
-          </span>
-          <span>
-            <b>Your comments:</b>
+            <b>Dine kommentarer:</b>
           </span>
         </div>
         <button
           onClick={handleLogout}
           className='bg-accent hover:bg-accent/70 rounded-md px-4 py-2 text-white'
         >
-          Logout
+          Logg ut
         </button>
       </div>
       <Footer />
