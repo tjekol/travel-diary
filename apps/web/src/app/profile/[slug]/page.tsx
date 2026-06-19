@@ -1,9 +1,9 @@
 'use client';
 
-import { supabase } from '@/app/utils/client';
+import { auth } from '@/app/utils/firebase';
 import Footer from '@/components/footer';
 import Header from '@/components/header';
-import { User } from '@supabase/supabase-js';
+import { onAuthStateChanged, signOut, User } from 'firebase/auth';
 import { use, useEffect, useState } from 'react';
 
 export default function ProfilePage({
@@ -15,21 +15,24 @@ export default function ProfilePage({
   const [user, setUser] = useState<User | null>(null);
 
   useEffect(() => {
-    async function fetchUser() {
-      // Fetches user details from Supabase Auth server
-      const {
-        data: { user },
-        error,
-      } = await supabase.auth.getUser();
-      if (error) console.error('User error:', error.message);
-      if (user) setUser(user);
-    }
-    fetchUser();
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        const uid = user.uid;
+        setUser(user);
+      } else {
+        // User is signed out
+      }
+    });
   }, []);
 
-  const handleLogout = async () => {
-    const { error } = await supabase.auth.signOut();
-    if (error) console.error('Login error:', error.message);
+  const handleLogout = () => {
+    signOut(auth)
+      .then(() => {
+        // Sign-out successful.
+      })
+      .catch((error) => {
+        // An error happened.
+      });
     window.location.replace('/');
   };
 
@@ -38,7 +41,7 @@ export default function ProfilePage({
       <Header />
       <div className='flex w-full flex-1 flex-col space-y-4'>
         <div className='bg-secondary/60 flex flex-col rounded-sm p-6 lg:p-8'>
-          <h2>Hi, {user?.email}</h2>
+          <h2>Hi, {user?.displayName}</h2>
           <span>Your liked posts:</span>
           <span>Comments posted by you:</span>
         </div>
