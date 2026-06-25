@@ -6,6 +6,7 @@ import { getPosts } from '@/sanity/post';
 import { IPost } from '@/sanity/post/schemas';
 import { getTravels } from '@/sanity/travel';
 import { ITravel } from '@/sanity/travel/schemas';
+import { Skeleton } from '@heroui/react/skeleton';
 import Image from 'next/image';
 import { use, useState } from 'react';
 import { useEffect } from 'react';
@@ -58,8 +59,25 @@ export default function TravelPage({
     return (
       <main className='flex min-h-screen w-full flex-col justify-between py-12'>
         <Header />
-        <div className='w-full grow rounded-sm bg-secondary/60 p-8'>
-          <div className='text-center'>Laster...</div>
+        <div className='bg-secondary/60 w-full grow rounded-sm p-8'>
+          <div className='mx-auto grid w-full grid-cols-2 gap-3 overflow-hidden sm:gap-4 lg:w-5/6 lg:grid-cols-4'>
+            <Skeleton
+              className='aspect-square rounded-sm object-cover p-1 sm:p-2'
+              animationType='pulse'
+            />
+            <Skeleton
+              className='aspect-square rounded-sm object-cover p-1 sm:p-2'
+              animationType='pulse'
+            />
+            <Skeleton
+              className='aspect-square rounded-sm object-cover p-1 sm:p-2'
+              animationType='pulse'
+            />
+            <Skeleton
+              className='aspect-square rounded-sm object-cover p-1 sm:p-2'
+              animationType='pulse'
+            />
+          </div>
         </div>
       </main>
     );
@@ -74,11 +92,11 @@ export default function TravelPage({
             Ingen innlegg…
           </div>
         ) : (
-          <div className='mx-auto grid w-full grid-cols-2 items-center justify-center gap-3 self-center sm:gap-4 lg:w-5/6 xl:grid-cols-4'>
+          <div className='mx-auto grid w-full grid-cols-2 justify-items-center gap-3 sm:gap-4 lg:w-5/6 lg:grid-cols-4'>
             {posts.map((post) => (
               <div
                 key={post._id}
-                className='rounded-sm bg-primary/70 p-1 hover:scale-105 sm:p-2'
+                className='bg-primary/70 rounded-sm p-1 hover:scale-105 sm:p-2'
               >
                 {loadingImages.includes(post._id) && <PulseLoader size={10} />}
                 <a href={'post/' + post.slug.current}>
@@ -93,7 +111,7 @@ export default function TravelPage({
                     height={400}
                   />
                   <p className='text-text'>{post.title}</p>
-                  <p className='font-light text-accent'>{post.publishedAt}</p>
+                  <p className='text-accent font-light'>{post.publishedAt}</p>
                 </a>
               </div>
             ))}

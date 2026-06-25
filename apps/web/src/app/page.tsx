@@ -8,11 +8,12 @@ import Image from 'next/image';
 import { useState } from 'react';
 import { useEffect } from 'react';
 import { PulseLoader } from 'react-spinners';
+import { Skeleton } from '@heroui/react/skeleton';
 
 export default function Home() {
   const [posts, setPosts] = useState<IPost[]>([]);
   const [loadingImages, setLoadingImages] = useState<string[]>([]);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState<boolean>(true);
 
   useEffect(() => {
     const fetchPosts = async () => {
@@ -41,7 +42,24 @@ export default function Home() {
       <main className='flex min-h-screen w-full flex-col justify-between py-12'>
         <Header />
         <div className='bg-secondary/60 w-full grow rounded-sm p-8'>
-          <div className='text-center'>Laster...</div>
+          <div className='mx-auto grid w-full grid-cols-2 gap-3 overflow-hidden sm:gap-4 lg:w-5/6 lg:grid-cols-4'>
+            <Skeleton
+              className='aspect-square rounded-sm object-cover p-1 sm:p-2'
+              animationType='pulse'
+            />
+            <Skeleton
+              className='aspect-square rounded-sm object-cover p-1 sm:p-2'
+              animationType='pulse'
+            />
+            <Skeleton
+              className='aspect-square rounded-sm object-cover p-1 sm:p-2'
+              animationType='pulse'
+            />
+            <Skeleton
+              className='aspect-square rounded-sm object-cover p-1 sm:p-2'
+              animationType='pulse'
+            />
+          </div>
         </div>
       </main>
     );
@@ -56,7 +74,7 @@ export default function Home() {
             Ingen innlegg…
           </div>
         ) : (
-          <div className='mx-auto grid w-full grid-cols-2 justify-items-center gap-3 sm:gap-4 lg:w-5/6 xl:grid-cols-4'>
+          <div className='mx-auto grid w-full grid-cols-2 justify-items-center gap-3 sm:gap-4 lg:w-5/6 lg:grid-cols-4'>
             {posts.map((post) => (
               <div
                 key={post._id}
