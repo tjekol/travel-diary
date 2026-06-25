@@ -1,6 +1,6 @@
 import { Heart } from '@gravity-ui/icons';
 import { HeartFill } from '@gravity-ui/icons';
-import { ToggleButton, AlertDialog, Button } from '@heroui/react';
+import { ToggleButton, AlertDialog, Spinner } from '@heroui/react';
 import { useEffect, useState } from 'react';
 import LoginButton from './loginButton';
 import { onAuthStateChanged } from 'firebase/auth';
@@ -21,6 +21,7 @@ export default function Like({ post_id }: { post_id: string }) {
   const [isLiked, setIsLiked] = useState(false);
   const [like_count, setLikeCount] = useState<number>(0);
   const [showAlert, setShowAlert] = useState(false);
+  const [loading, setLoading] = useState<boolean>(true);
 
   useEffect(() => {
     const userHasLiked = async (post_id: string) => {
@@ -47,10 +48,17 @@ export default function Like({ post_id }: { post_id: string }) {
   }, [post_id, isLiked]);
 
   const getLikes = async (post_id: string) => {
-    const docRef = collection(db, 'post_likes');
-    const q = query(docRef, where('post_id', '==', post_id));
-    const snapshot = await getCountFromServer(q);
-    setLikeCount(snapshot.data().count);
+    setLoading(true);
+    try {
+      const docRef = collection(db, 'post_likes');
+      const q = query(docRef, where('post_id', '==', post_id));
+      const snapshot = await getCountFromServer(q);
+      setLikeCount(snapshot.data().count);
+    } catch (e) {
+      console.error(e);
+    } finally {
+      setLoading(false);
+    }
   };
 
   const toggleLike = async (post_id: string) => {
@@ -94,7 +102,7 @@ export default function Like({ post_id }: { post_id: string }) {
       {showAlert && (
         <AlertDialog.Backdrop isOpen={showAlert} onOpenChange={setShowAlert}>
           <AlertDialog.Container>
-            <AlertDialog.Dialog className='sm:max-w-[400px]'>
+            <AlertDialog.Dialog className='sm:max-w-100'>
               <AlertDialog.CloseTrigger />
               <AlertDialog.Header>
                 <AlertDialog.Icon status='accent' />
@@ -119,7 +127,11 @@ export default function Like({ post_id }: { post_id: string }) {
           {({ isSelected: selected }) => (
             <>
               {selected ? <HeartFill /> : <Heart />}
-              {like_count}
+              {loading ? (
+                <Spinner className='flex justify-center' />
+              ) : (
+                like_count
+              )}
             </>
           )}
         </ToggleButton>

@@ -21,6 +21,8 @@ import {
   getDocs,
   getCountFromServer,
 } from 'firebase/firestore';
+import { Skeleton } from '@heroui/react/skeleton';
+import { Spinner } from '@heroui/react';
 
 export default function PostPage({
   params,
@@ -30,6 +32,7 @@ export default function PostPage({
   const { slug } = use(params);
   const [posts, setPosts] = useState<IPost[]>([]);
   const [post, setPost] = useState<IPost | null>(null);
+  const [loadingViews, setLoadingViews] = useState(true);
   const [loading, setLoading] = useState(true);
   const [currentIndex, setCurrentIndex] = useState(0);
   // prev slug -> newer, next slug -> older posts
@@ -83,10 +86,16 @@ export default function PostPage({
         }
 
         // 3. Read views
-        const docRef = collection(db, 'view_logs');
-        const q = query(docRef, where('post_id', '==', post_id));
-        const snapshot = await getCountFromServer(q);
-        setViewerCount(snapshot.data().count);
+        try {
+          const docRef = collection(db, 'view_logs');
+          const q = query(docRef, where('post_id', '==', post_id));
+          const snapshot = await getCountFromServer(q);
+          setViewerCount(snapshot.data().count);
+        } catch (e) {
+          console.error(e);
+        } finally {
+          setLoadingViews(false);
+        }
       }
     };
     updateAndReadViews(slug);
@@ -138,8 +147,11 @@ export default function PostPage({
     return (
       <main className='flex min-h-screen w-full flex-col justify-between py-12'>
         <Header />
-        <div className='bg-secondary/60 w-full grow rounded-sm p-8'>
-          <div className='text-center'>Laster...</div>
+        <div className='bg-secondary/60 flex w-full grow flex-col items-center space-y-4 rounded-sm p-6 lg:p-8'>
+          <Skeleton className='h-100 w-2/3 lg:w-1/2' animationType='pulse' />
+          <Skeleton className='h-4 w-3/4' animationType='pulse' />
+          <Skeleton className='h-4 w-4/5' animationType='pulse' />
+          <Skeleton className='h-4 w-1/3' animationType='pulse' />
         </div>
       </main>
     );
@@ -163,7 +175,7 @@ export default function PostPage({
         <div className='hidden justify-center p-4 text-xl lg:visible lg:flex'>
           {currentIndex + 1}/{posts.length}
         </div>
-        <div className='relative flex flex-col items-center space-y-2 px-2 lg:my-8 lg:flex-col lg:justify-center lg:space-y-4 lg:space-x-6 lg:px-10'>
+        <div className='relative flex flex-col items-center space-y-2 px-2 lg:my-8 lg:justify-center lg:space-y-4 lg:space-x-6 lg:px-10'>
           <div className='flex flex-row items-center gap-10 pb-2'>
             {prevSlug && (
               <a
@@ -196,13 +208,13 @@ export default function PostPage({
           <div className='flex gap-4'>
             <span className='flex items-center gap-1'>
               <Eye />
-              {viewer_count}
+              {loadingViews ? <Spinner /> : viewer_count}
             </span>
             <span className='flex items-center gap-1'>
               <Like post_id={slug} />
             </span>
           </div>
-          <div className='space-y-4 self-center pb-6 lg:w-2/5 lg:space-y-6'>
+          <div className='space-y-4 self-center pb-6 lg:w-3/5 lg:space-y-6'>
             <div className='lg:space-y-2'>
               <h1 className='font-semibold'>{post.title}</h1>
               <h2 className='text-accent'>{post.publishedAt}</h2>
