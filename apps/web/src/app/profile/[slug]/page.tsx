@@ -64,6 +64,10 @@ export default function ProfilePage({
     window.location.replace('/');
   };
 
+  if (!user) {
+    window.location.replace('/');
+  }
+
   return (
     <main className='flex min-h-screen flex-col justify-between p-6 sm:p-12'>
       <Header />
@@ -88,12 +92,12 @@ export default function ProfilePage({
             <div className='bg-secondary/60 flex min-h-70 flex-col gap-4 rounded-sm p-6 lg:p-8'>
               <h2>Hei, {user?.displayName}</h2>
               {data && (
-                <span>
+                <>
                   <b>Likte innlegg:</b>
                   <ul className='flex flex-col'>
                     {data.map((d, i) => (
                       <a
-                        className='hover:underline'
+                        className='self-start hover:underline'
                         href={`/post/${d.post_id}`}
                         key={i}
                       >
@@ -101,7 +105,7 @@ export default function ProfilePage({
                       </a>
                     ))}
                   </ul>
-                </span>
+                </>
               )}
               <span>
                 <b>Dine kommentarer:</b>
